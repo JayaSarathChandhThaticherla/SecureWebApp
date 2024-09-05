@@ -21,9 +21,14 @@ namespace MyApp.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteBookAsync(int id)
+        public async Task DeleteBookAsync(int id)
         {
-            throw new NotImplementedException();
+            var book = await _context.BooksTable.FindAsync(id);
+            if (book != null)
+            {
+                _context.BooksTable.Remove(book);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<List<BooksTable>> GetBooksAsync()
@@ -31,14 +36,22 @@ namespace MyApp.Repositories
             return await Task.FromResult(_context.BooksTable.ToList());
         }
 
-        public Task<List<BooksTable>> SearchBooksAsync(string query)
+        public async Task<List<BooksTable>> SearchBooksAsync(string query)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(
+                string.IsNullOrEmpty(query)
+                    ? _context.BooksTable.ToList()
+                    : _context.BooksTable.Where(b => b.BookName.Contains(query)).ToList());
         }
 
-        public Task UpdateBookAsync(BooksTable book)
+        public async Task UpdateBookAsync(BooksTable book)
         {
-            throw new NotImplementedException();
+            _context.BooksTable.Update(book);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<BooksTable> GetBookByIdAsync(int id)
+        {
+            return await _context.BooksTable.FindAsync(id);
         }
     }
 }

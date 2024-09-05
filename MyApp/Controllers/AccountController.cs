@@ -62,7 +62,7 @@ namespace MyApp.Controllers
                 if (user != null)
                 {
                     await _userRepository.SignInUserAsync(user, model.RememberMe);
-                    return RedirectToAction("Privacy", "Home");
+                    return RedirectToAction("GetBooks", "Books");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
