@@ -22,6 +22,7 @@ public static class SeedData
         // Create admin user
         string adminEmail = "sarath@example.com";
         string adminPassword = "Pa$$w0rd"; // Admin password
+
         var admin = await userManager.FindByEmailAsync(adminEmail);
         if (admin == null)
         {

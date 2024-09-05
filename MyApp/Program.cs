@@ -20,6 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 // Register repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBooksRepository, BookRepository>();
 
 // Configure cookie settings
 builder.Services.ConfigureApplicationCookie(options =>
