@@ -1,9 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Models;
 
 namespace MyApp.Controllers;
-
+[Authorize(Roles = "user, admin")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -12,12 +14,12 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
-
+    [Authorize(Roles = "admin")]
     public IActionResult Index()
     {
         return View();
     }
-
+    [Authorize(Roles = "user, admin")]
     public IActionResult Privacy()
     {
         return View();
