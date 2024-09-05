@@ -15,11 +15,13 @@
     <None Remove="Repositories\" />
     <None Remove="ViewModels\" />
     <None Remove="Views\Account\" />
+    <None Remove="Views\Books\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Repositories\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Views\Books\" />
   </ItemGroup>
 </Project>

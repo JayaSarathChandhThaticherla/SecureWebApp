@@ -1,0 +1,53 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model IEnumerable<MyApp.Models.BooksTable>
+@using (Html.BeginForm("Search", "Books", FormMethod.Get))
+{
+    <input type="text" name="query" placeholder="Search by book name..." />
+    <input type="submit" value="Search" />
+}
+
+<h1>List of Books</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Book Name</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.ID</td>
+                <td>@book.BookName</td>
+                <td>@book.Author</td>
+                <td>@book.Price</td>
+                <td>
+                    @Html.ActionLink("Edit", "EditBook", "Books", new { id = book.ID })
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteBook", "Books", new { id = book.ID })
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<div style="color:aqua  ">
+    <button type="submit">
+        @Html.ActionLink("Add Books", "AddBooks", "Books")
+    </button>
+</div>

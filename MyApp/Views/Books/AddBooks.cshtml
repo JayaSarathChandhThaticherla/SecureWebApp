@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model MyApp.ViewModels.AddBookViewModel
+
+
+<form method="post">
+    <div style="color:green">
+        <label asp-for="BookName">
+
+        </label><br />
+        <input asp-for="BookName" />
+        <span asp-validation-for="BookName"></span>
+    </div>
+    <div>
+        <label asp-for="Author">
+
+        </label><br />
+        <input asp-for="Author" />
+        <span asp-validation-for="Author"></span>
+    </div>
+    <div>
+        <label asp-for="Price">
+
+        </label><br />
+        <input asp-for="Price" />
+        <span asp-validation-for="Price"></span>
+    </div>
+    <div>
+        <button type="submit">Add Book</button>
+    </div>
+</form>
