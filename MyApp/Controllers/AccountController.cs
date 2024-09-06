@@ -33,15 +33,8 @@ namespace MyApp.Controllers
                 };
 
                 var result = await _userRepository.RegisterUserAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await _userRepository.SignInUserAsync(user, isPersistent: false);
-                    return RedirectToAction("Login", "Account");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                return RedirectToAction("Login", "Account");
+
             }
             return View(model);
         }
@@ -59,17 +52,33 @@ namespace MyApp.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userRepository.FindUserByEmailAsync(model.Email);
-                if (user != null)
+                if (user != null) {
+
+                var result = await _userRepository.SignInUserAsync(user.UserName, model.Password, model.RememberMe);
+
+                if (result.Succeeded)
                 {
-                    await _userRepository.SignInUserAsync(user, model.RememberMe);
                     return RedirectToAction("GetBooks", "Books");
                 }
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                else if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError(string.Empty, "User account locked out.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
             }
-            return View(model);
+            else
+            {
+                ModelState.AddModelError(string.Empty, "User not found.");
+            }
         }
 
-        [HttpPost]
+    return View(model);
+    }
+
+    [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _userRepository.SignOutUserAsync();
