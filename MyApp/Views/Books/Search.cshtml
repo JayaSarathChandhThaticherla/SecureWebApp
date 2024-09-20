@@ -1,10 +1,69 @@
 ﻿@model IEnumerable<MyApp.Models.BooksTable>
 
-@using (Html.BeginForm("Search", "Books", FormMethod.Get))
-{
-    <input type="text" name="query" placeholder="Search by book name..." />
-    <input type="submit" value="Search" />
+@{
+    ViewBag.Title = "Book List";
 }
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 20px;
+    }
+    .search-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    input[type="text"] {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    input[type="submit"] {
+        padding: 10px 15px;
+        background-color: #007acc;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+    input[type="submit"]:hover {
+        background-color: #005f99;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #007acc;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #e7f3ff;
+    }
+</style>
+
+<div class="search-container">
+    @using (Html.BeginForm("Search", "Books", FormMethod.Get))
+    {
+        <input type="text" name="query" placeholder="Search by book name..." />
+        <input type="submit" value="Search" />
+    }
+</div>
+
+<h1>List of Books</h1>
 
 <table>
     <thead>
@@ -21,7 +80,7 @@
             <tr>
                 <td>@book.BookName</td>
                 <td>@book.Author</td>
-                <td>@book.Price</td>
+                <td>@book.Price.ToString("C")</td> <!-- Format as currency -->
                 <!-- Add more columns as needed -->
             </tr>
         }
