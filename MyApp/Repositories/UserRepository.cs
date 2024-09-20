@@ -7,7 +7,7 @@ namespace MyApp.Repositories
     {
         Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password);
         Task<ApplicationUser> FindUserByEmailAsync(string email);
-        Task SignInUserAsync(ApplicationUser user, bool isPersistent);
+        Task<SignInResult> SignInUserAsync(string username,string password, bool isPersistent);
         Task SignOutUserAsync();
         Task EnsureRolesCreatedAsync();
     }
@@ -40,10 +40,13 @@ namespace MyApp.Repositories
             return await _userManager.FindByEmailAsync(email);
         }
 
-        public async Task SignInUserAsync(ApplicationUser user, bool isPersistent)
+        public async Task<SignInResult> SignInUserAsync(string userName, string password, bool isPersistent)
         {
-            await _signInManager.SignInAsync(user, isPersistent);
+            // Validate the user's password using PasswordSignInAsync
+            var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure: false);
+            return result;
         }
+
 
         public async Task SignOutUserAsync()
         {
@@ -62,5 +65,7 @@ namespace MyApp.Repositories
                 await _roleManager.CreateAsync(new IdentityRole("user"));
             }
         }
+
+        
     }
 }

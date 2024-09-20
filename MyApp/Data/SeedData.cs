@@ -36,10 +36,33 @@ public static class SeedData
                 ZodiacSign = "Leo"
             };
 
-            var result = await userManager.CreateAsync(adminUser, "Pa$$w0rd");
+            var result = await userManager.CreateAsync(adminUser, adminPassword);
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(adminUser, "Admin");
+            }
+        }
+        // Create admin user
+        string RegularUserEmail = "sarath12@example.com";
+        string RegularUserPassword = "Pa$$w0rd"; // Regular User password
+
+        var User = await userManager.FindByEmailAsync(RegularUserEmail);
+        if (User == null)
+        {
+            var RegularUser = new ApplicationUser
+            {
+                UserName = RegularUserEmail,
+                Email = RegularUserEmail,
+                Name = "Regular User",
+                Address = "Regular User Address",
+                MobileNumber = "123456789",
+                ZodiacSign = "Leo"
+            };
+
+            var result = await userManager.CreateAsync(RegularUser, "Pa$$w0rd");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(RegularUser, "User");
             }
         }
     }

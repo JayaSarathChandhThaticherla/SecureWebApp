@@ -7,6 +7,7 @@ namespace MyApp.Repositories
     {
         Task<List<BooksTable>> GetBooksAsync();
         Task AddBookAsync(BooksTable book);
+        Task<BooksTable> GetBookByIdAsync(int id);
         Task UpdateBookAsync(BooksTable book);
         Task DeleteBookAsync(int id);
         Task<List<BooksTable>> SearchBooksAsync(string query);
