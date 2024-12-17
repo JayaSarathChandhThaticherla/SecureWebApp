@@ -1,15 +1,85 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<MyApp.Models.BooksTable>
+
 @{
+    ViewBag.Title = "Book List";
 }
 
-@model IEnumerable<MyApp.Models.BooksTable>
-@using (Html.BeginForm("Search", "Books", FormMethod.Get))
-{
-    <input type="text" name="query" placeholder="Search by book name..." />
-    <input type="submit" value="Search" />
-}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #007acc;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #007acc;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #e7f3ff;
+    }
+    .search-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .search-container input[type="text"] {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .search-container input[type="submit"] {
+        padding: 10px 15px;
+        background-color: #007acc;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .search-container input[type="submit"]:hover {
+        background-color: #005f99;
+    }
+    .add-button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .add-button:hover {
+        background-color: #218838;
+    }
+</style>
+
+<div class="search-container">
+    @using (Html.BeginForm("Search", "Books", FormMethod.Get))
+    {
+        <input type="text" name="query" placeholder="Search by book name..." />
+        <input type="submit" value="Search" />
+    }
+</div>
 
 <h1>List of Books</h1>
 
@@ -33,21 +103,14 @@
                 <td>@book.Author</td>
                 <td>@book.Price</td>
                 <td>
-                    @Html.ActionLink("Edit", "EditBook", "Books", new { id = book.ID })
+                    @Html.ActionLink("Edit", "EditBook", "Books", new { id = book.ID }, null)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete", "DeleteBook", "Books", new { id = book.ID })
+                    @Html.ActionLink("Delete", "DeleteBook", "Books", new { id = book.ID }, new { onclick = "return confirm('Are you sure you want to delete this book?');" })
                 </td>
-
             </tr>
         }
-
     </tbody>
-
 </table>
 
-<div style="color:aqua  ">
-    <button type="submit">
-        @Html.ActionLink("Add Books", "AddBooks", "Books")
-    </button>
-</div>
+<a href="@Url.Action("AddBooks", "Books")" class="add-button">Add Books</a>
